@@ -1,6 +1,7 @@
-import React, {PureComponent} from 'react'
-import {connect} from 'react-redux'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { newGame } from '../actions/game'
+
 class NewGameButton extends PureComponent {
 
   render() {
@@ -10,10 +11,5 @@ class NewGameButton extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    game: state
-  }
-}
 
-export default connect(mapStateToProps, { newGame })(NewGameButton)
+export default connect(null, { newGame })(NewGameButton)

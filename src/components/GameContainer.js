@@ -1,36 +1,39 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
+import { showGuess, isWinner, gameFinished } from '../lib/game'
 import { newGame, makeGuess } from '../actions/game'
 import { connect } from 'react-redux'
 import Title from './Title'
 import NewGameButton from './NewGameButton'
 import InputGuess from './InputGuess'
+import ShowLetters from './ShowLetters'
+import WrongGuesses from './WrongGuesses'
 
 
 
 class GameContainer extends PureComponent {
 
-
-  componentDidMount(){
-    this.props.newGame()
-  }
-
-
-
   render() {
+
     return (
       <div>
-        <Title content="I am the game" />
-        <InputGuess />
         <NewGameButton />
+        <Title content="Guess this word:" />
+        <p>{showGuess(this.props.word, this.props.letters)}</p>
+        <InputGuess />
+        <ShowLetters />
+        <WrongGuesses />
+        {isWinner(this.props.word, this.props.letters) && <p>YOU HAVE WON!</p>}
+        {gameFinished(this.props.word, this.props.letters) && !isWinner(this.props.word, this.props.letters) && <p>YOU LOST ): </p>}
 
 
       </div>);
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (state) => {
   return {
-    game: store.game
+    word: state.word,
+    letters: state.letters
   }
 }
 
