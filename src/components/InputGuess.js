@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { makeGuess } from '../actions/game'
 import { connect } from 'react-redux'
+import { gameFinished } from '../lib/game'
 
 
 class InputGuess extends PureComponent {
@@ -8,35 +9,29 @@ class InputGuess extends PureComponent {
   handleSubmit = (event) => {
     event.preventDefault()
     const [input] = event.target.children
-    this.props.makeGuess(input.value)
-    input.value= ''
+    if(input.value !== '' && input.value !== ' ') {
+      this.props.makeGuess(input.value)
+      input.value= ''
+    }
   }
 
   render() {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input type='text'/>
-          <button type='submit' value='submit'>submit</button>
+          <input maxLength='1' type='text'/>
+          <button type='submit' value='submit' disabled={gameFinished(this.props.word, this.props.letters)}>GUESS</button>
         </form>
       </div>
     )
   }
 }
 
-// handleSubmit = (event) => {
-//   this.props.makeGuess()
-// }
-//
-// render() {
-//   return (
-//     <div>
-//       <h2>{this.props.showGuess}</h2>
-//       <input maxLength='1' type='text' defaultValue={this.props.guess}/>
-//       <button onClick={this.handleSubmit}>Submit</button>
-//     </div>)
-// }
-// }
+const mapStateToProps = (state) => {
+  return {
+    word: state.word,
+    letters: state.letters
+  }
+}
 
-
-export default connect (null, { makeGuess })(InputGuess)
+export default connect (mapStateToProps, { makeGuess })(InputGuess)

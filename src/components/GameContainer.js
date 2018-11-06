@@ -7,6 +7,7 @@ import NewGameButton from './NewGameButton'
 import InputGuess from './InputGuess'
 import ShowLetters from './ShowLetters'
 import WrongGuesses from './WrongGuesses'
+import './GameContainer.css'
 
 
 
