@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { newGame } from '../actions/game'
-import './GameContainer.css'
 
 class NewGameButton extends PureComponent {
 

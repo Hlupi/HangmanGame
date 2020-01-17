@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
-import './App.css';
 import { Route } from 'react-router-dom'
+import { withRouter } from "react-router";
+
+import GlobalStyles from './styles/index'
+import Header from './components/Header'
 import Intro from './components/Intro'
 import GameContainer from './components/GameContainer'
 
 class App extends Component {
+  switchPath = () => {
+    if(this.props.location.pathname.includes('hangman')) {
+      this.props.history.push('/')
+    } else {
+      this.props.history.push('/hangman')
+    }
+  }
+
   render() {
+
+
+    const { location } = this.props
+    const gamePage = location.pathname.includes('hangman')
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">How's it hanging, man?</h1>
-        </header>
-
-        <main>
-          <Route exact path='/' component={Intro} />
-          <Route path='/hangman' component={GameContainer} />
-        </main>
-
-      </div>
+      <>
+        <GlobalStyles gamePage={gamePage} />
+        <div>
+          <Header gamePage={gamePage} onClick={this.switchPath} />
+          <main>
+            <Route exact path='/' component={Intro} />
+            <Route path='/hangman' component={GameContainer} />
+          </main>
+        </div>
+      </>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

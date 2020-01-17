@@ -1,7 +1,19 @@
 import React, { PureComponent } from 'react'
-import { makeGuess } from '../actions/game'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+
+import { makeGuess } from '../actions/game'
 import { gameFinished } from '../lib/game'
+
+const Input = styled.input`
+  padding: 10px 20px;
+  background: rgb(246, 199, 176);
+  border: none;
+  border-radius: 5px;
+  color: rgb(34,15,34);
+`
+
+
 
 
 class InputGuess extends PureComponent {
@@ -19,7 +31,7 @@ class InputGuess extends PureComponent {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input maxLength='1' type='text'/>
+          <Input maxLength='1' type='text'/>
           <button type='submit' value='submit' disabled={gameFinished(this.props.word, this.props.letters)}>GUESS</button>
         </form>
       </div>
