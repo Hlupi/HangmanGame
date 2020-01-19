@@ -15,15 +15,15 @@ export default createGlobalStyle`
     padding: 20px;
     min-width: 320px;
     overflow-x: hidden;
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
     min-height: 100vh;
-    /* background: rgb(34,15,34); */
-    background-size: ${({ gamePage }) => gamePage ? '50%' : '100%'};
-    background-position-x: right;
-    background-image: linear-gradient(rgb(62, 3, 36), rgb(34,15,34));
-    background-repeat: no-repeat;
-    /* background-image: linear-gradient(#63224c, #3C152E); */
     transition: background-size 0.25s linear;
+    @media(min-width: 768px) {
+      background-size: ${({ gamePage }) => (gamePage ? '50%' : '100%')};
+      background-position-x: right;
+      background-image: linear-gradient(rgb(62, 3, 36), rgb(34,15,34));
+      background-repeat: no-repeat;
+    }
   }
   * {
     box-sizing: border-box;
@@ -38,6 +38,7 @@ export default createGlobalStyle`
 
   a {
     cursor: pointer;
+    text-decoration: none;
   }
 
   button {
@@ -58,8 +59,11 @@ export default createGlobalStyle`
     margin: 0;
   }
 
+  h1 {
+    font-family: 'Sanchez', serif;
+  }
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Sulphur Point', sans-serif;
     margin-bottom: 20px;
     text-align: center;
     font-weight: bold;
@@ -81,7 +85,6 @@ export default createGlobalStyle`
   }
 
 `
-
 
 const colors = {
   purple: 'rgb(34,15,34)',

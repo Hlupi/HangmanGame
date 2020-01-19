@@ -14,33 +14,33 @@ import Hangman from './Hangman'
 const FlexContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
-
 `
 
 const Container = styled.div`
   padding: 20px;
   width: 100%;
-  @media(min-width: 768px) {
+  text-align: center;
+  @media (min-width: 768px) {
     width: 50%;
   }
 `
 
 const P = styled.p`
   color: rgb(247, 191, 162);
+  font-size: 30px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
 `
 
-
 class GameContainer extends PureComponent {
-
   render() {
-
     return (
       <FlexContainer>
         <Container>
           <Hangman />
-        </Container>  
+        </Container>
         <Container>
-          <Title content="Guess this word:" />
+          <Title content='Guess this word:' />
           <P>{showGuess(this.props.word, this.props.letters)}</P>
           <InputGuess />
           <ShowLetters />
@@ -49,11 +49,12 @@ class GameContainer extends PureComponent {
           {gameFinished(this.props.word, this.props.letters) && !isWinner(this.props.word, this.props.letters) && <p>YOU LOST ): </p>}
           <NewGameButton />
         </Container>
-      </FlexContainer>);
+      </FlexContainer>
+    )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     word: state.word,
     letters: state.letters
