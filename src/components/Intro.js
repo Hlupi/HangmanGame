@@ -20,21 +20,8 @@ const Section = styled.section`
 
 const Text = styled.p`
   margin-bottom: 15px;
-  color: rgb(246, 199, 176);
 `
 
-const StyledLink = styled(Link)`
-  color: rgb(190, 22, 49);
-  text-transform: uppercase;
-  font-size: 18px;
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  text-shadow: 1px 1px 3px rgb(238, 107, 64);
-  letter-spacing: 3px;
-  word-spacing: 7px;
-`
 
 export default function Intro() {
   return (
@@ -48,7 +35,7 @@ export default function Intro() {
         from that sentence and not tried again on that crime.
       </Text>
       <Text>The irony here was that almost all of those criminals were illiterate.</Text>
-      <StyledLink to='/hangman'>Try your odds</StyledLink>
+      <Link to='/hangman'>Try your odds</Link>
     </Section>
   )
 }

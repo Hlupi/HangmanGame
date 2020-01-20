@@ -4,58 +4,43 @@ import styled from 'styled-components'
 
 import { makeGuess } from '../actions/game'
 import { gameFinished } from '../lib/game'
+import { Button } from '../fragments/button'
 
-const Form = styled.form`
-  margin-bottom: 30px;
-`
-
-const Input = styled.input`
-  padding: 10px 20px;
-  margin-right: 20px;
-  background: rgb(246, 199, 176);
-  border: none;
-  border-radius: 5px;
-  color: rgb(34, 15, 34);
-  font-size: 20px;
-  text-transform: uppercase;
-`
-
-const Button = styled.button`
-  padding: 10px 20px;
-  font-size: 18px;
-  background: rgb(34, 15, 34);
-  color: rgb(246, 199, 176);
-  border-radius: 3px;
-  font-family: 'Sanchez', serif;
-  @media (max-width: 767px) {
-    margin-bottom: 15px;
-  }
-
-  &:hover {
-    box-shadow: 0px 1px 10px rgb(190, 22, 49);
-  }
+const Error = styled.span`
+  width: 100%;
+  text-align: left;
+  opacity: ${({visible}) => visible ? 1 : 0};
+  transition: opacity 0.25s linear;
+  color: rgb(190,22,49);
 `
 
 class InputGuess extends PureComponent {
+  state = {
+    error: false
+  }
+
   handleSubmit = event => {
     event.preventDefault()
-    const [input] = event.target.children
-    if (input.value !== '' && input.value !== ' ') {
+    const [ input ] = event.target.children
+    if(this.props.letters.indexOf(input.value) > -1) {
+      console.log('input', this.props.letters.indexOf(input.value))
+      this.setState({error: true})
+    } else {
       this.props.makeGuess(input.value)
+      this.setState({error: false})
       input.value = ''
     }
   }
 
   render() {
     return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
-          <Input maxLength='1' type='text' />
-          <Button type='submit' value='submit' disabled={gameFinished(this.props.word, this.props.letters)}>
-            GUESS
-          </Button>
-        </Form>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <input maxLength='1' type='text' pattern="^[A-Za-z]+$" title="Input the letter you whish to guess" />
+        <Button type='submit' value='submit' disabled={gameFinished(this.props.word, this.props.letters)} purple>
+          GUESS
+        </Button>
+        <Error visible={this.state.error}>Oops, looks like you've already guessed this letter</Error>
+      </form>
     )
   }
 }

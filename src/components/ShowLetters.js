@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 const Text = styled.p`
-  color: rgb(254, 163, 135);
   font-size: 26px;
   text-transform: uppercase;
   margin-bottom: 30px;
@@ -16,7 +15,7 @@ class ShowLetters extends PureComponent {
         <Text>
           You have guessed the letters:
           {this.props.letters.map((letter, index) => (
-            <span key={index}>{letter} / </span>
+            <span key={index}> {letter} /</span>
           ))}
         </Text>
       </>

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { showGuess, isWinner, gameFinished } from '../lib/game'
 import { newGame, makeGuess } from '../actions/game'
@@ -17,12 +17,18 @@ const FlexContainer = styled.section`
 `
 
 const Container = styled.div`
-  padding: 20px;
+  padding: 20px 40px;
   width: 100%;
   text-align: center;
   @media (min-width: 768px) {
+    padding: 20px;
     width: 50%;
   }
+  ${({ withBackground }) => withBackground && css`
+  @media(max-width: 767px) {
+    background-image: linear-gradient(rgb(62, 3, 36), rgb(34,15,34));
+  }
+  `}
 `
 
 const P = styled.p`
@@ -39,7 +45,7 @@ class GameContainer extends PureComponent {
         <Container>
           <Hangman />
         </Container>
-        <Container>
+        <Container withBackground>
           <Title content='Guess this word:' />
           <P>{showGuess(this.props.word, this.props.letters)}</P>
           <InputGuess />

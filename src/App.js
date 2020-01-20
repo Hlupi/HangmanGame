@@ -17,8 +17,6 @@ class App extends Component {
   }
 
   render() {
-
-
     const { location } = this.props
     const gamePage = location.pathname.includes('hangman')
 
