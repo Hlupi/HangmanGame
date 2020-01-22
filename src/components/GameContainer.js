@@ -43,7 +43,7 @@ class GameContainer extends PureComponent {
     return (
       <FlexContainer>
         <Container>
-          <Hangman />
+          <Hangman visible={this.props.letters.length > 0} />
         </Container>
         <Container withBackground>
           <Title content='Guess this word:' />

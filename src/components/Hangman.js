@@ -1,6 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import styled, { css, keyframes } from 'styled-components'
 
-const Hangman = props => {
+
+const dash = (length) => keyframes`
+from {
+  stroke-dasharray: 0 ${length};
+}
+  to {
+    /* stroke-dashoffset: 0; */
+    stroke-dasharray: ${length} 0;
+}`
+
+const P1 = styled.path`
+  stroke-dasharray: ${({ length }) => length &&  `${length} 0`};
+  /* animation: ${({ length }) => dash(length * 2)} 3s ease-out; */
+  opacity: ${({ visible }) => visible ? 1 : 0};
+  transition: opacity .25s linear;
+  ${({visible}) => visible && css`
+  animation: ${({ length }) => dash(length * 2)} 3s ease-out;
+  `};
+  /* stroke-dashoffset: ${({ length }) => length && length*2}; */
+`
+const Hangman = ({visible}) => {
+  const [baseLength, setBaseLength] = useState(0)
+  const base = useRef()
+
+  useEffect(() => {
+    setBaseLength(base.current.getTotalLength())
+    console.log('base', base.current.getTotalLength())
+  })
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 574">
       <g id="Page-1" fill="none" fillRule="evenodd">
@@ -16,7 +44,7 @@ const Hangman = props => {
             <path id="Path" fill="#9D1228" d="M96.14 59c-1.533 4.67-8.806 8.064-11.632 12.106-3.267 4.673-2.892 12.777-8.538 15.48-4.787 2.293-11.673-.666-17.86-1.444a27.397 27.397 0 0 0-5.22 0c-6.188.778-13.074 3.737-17.86 1.444-5.646-2.703-5.271-10.807-8.538-15.48C23.666 67.064 16.393 63.67 14.858 59 11.737 61.604 9 64.355 9 67.698c0 6.374 9.946 10.597 13.543 15.743 3.712 5.31 3.285 14.517 9.7 17.588 5.439 2.604 13.262-.757 20.29-1.642a31.287 31.287 0 0 1 5.934 0c7.028.885 14.85 4.246 20.29 1.642 6.414-3.071 5.988-12.279 9.7-17.588C92.053 78.295 102 74.07 102 67.698c0-3.343-2.737-6.094-5.86-8.698z" />
           </g>
           <g id="diagram" stroke="#220F22">
-            <path id="base" strokeLinecap="round" strokeWidth="25" d="M.5 510.5h228" />
+            <P1 ref={base} length={baseLength} visible={visible} id="base" strokeLinecap="round" strokeWidth="25" d="M.5 510.5h228" />
             <path id="stand" strokeLinecap="square" strokeWidth="25" d="M114.5 510.5V1" />
             <path id="roof" strokeLinecap="round" strokeWidth="25" d="M114.5 1H471" />
             <path id="stability" strokeWidth="25" d="M114.5 124.942L244.5 1" />
