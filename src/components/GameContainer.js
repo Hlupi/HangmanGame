@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
-import { showGuess, isWinner, gameFinished } from '../lib/game'
-import { newGame, makeGuess } from '../actions/game'
+import { showGuess, wrongGuessCount, isWinner, gameFinished } from '../lib/game'
 import Title from './Title'
 import NewGameButton from './NewGameButton'
 import InputGuess from './InputGuess'
@@ -25,10 +24,10 @@ const Container = styled.div`
     width: 50%;
   }
   ${({ withBackground }) => withBackground && css`
-  @media(max-width: 767px) {
-    background-image: linear-gradient(rgb(62, 3, 36), rgb(34,15,34));
-  }
-  `}
+    @media (max-width: 767px) {
+      background-image: linear-gradient(rgb(62, 3, 36), rgb(34, 15, 34));
+    }
+    `}
 `
 
 const P = styled.p`
@@ -40,17 +39,18 @@ const P = styled.p`
 
 class GameContainer extends PureComponent {
   render() {
+    const wrongGuesses = wrongGuessCount(this.props.word, this.props.letters)
     return (
       <FlexContainer>
         <Container>
-          <Hangman visible={this.props.letters.length > 0} />
+          <Hangman wrongGuesses={wrongGuesses} />
         </Container>
         <Container withBackground>
           <Title content='Guess this word:' />
           <P>{showGuess(this.props.word, this.props.letters)}</P>
           <InputGuess />
           <ShowLetters />
-          <WrongGuesses />
+          <WrongGuesses count={wrongGuesses} />
           {isWinner(this.props.word, this.props.letters) && <p>YOU HAVE WON!</p>}
           {gameFinished(this.props.word, this.props.letters) && !isWinner(this.props.word, this.props.letters) && <p>YOU LOST ): </p>}
           <NewGameButton />
@@ -67,4 +67,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { newGame, makeGuess })(GameContainer)
+export default connect(mapStateToProps)(GameContainer)

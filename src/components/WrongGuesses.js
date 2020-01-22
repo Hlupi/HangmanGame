@@ -11,7 +11,7 @@ const Text = styled.p`
 `
 
 const Guesses = styled.span`
-  text-shadow: 0px 3px 3px rgb(190,22,49);
+  text-shadow: 0px 3px 3px rgb(190, 22, 49);
 `
 
 class WrongGuesses extends PureComponent {
@@ -19,7 +19,7 @@ class WrongGuesses extends PureComponent {
     return (
       <>
         <Text>
-          Wrong guess count: <Guesses> {wrongGuessCount(this.props.word, this.props.letters)} / 6</Guesses>
+          Wrong guess count: <Guesses> {this.props.count} / 6</Guesses>
         </Text>
       </>
     )
