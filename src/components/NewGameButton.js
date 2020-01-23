@@ -5,9 +5,9 @@ import { newGame } from '../actions/game'
 import { Button } from '../fragments/button'
 
 
-function NewGameButton({newGame}) {
+function NewGameButton({ newGame, purple }) {
   return (
-    <Button onClick={newGame} className='newGame'>
+    <Button onClick={newGame} className='newGame' purple={purple}>
       Start a new game
     </Button>
   )

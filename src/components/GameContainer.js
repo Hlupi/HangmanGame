@@ -33,24 +33,16 @@ const Container = styled.div`
   @media (max-width: 767px) {
     ${({ withBackground }) => withBackground ? css`
       background-image: linear-gradient(rgb(62, 3, 36), rgb(34, 15, 34));
+      position: relative;
     ` :
     'max-width: 450px'
-    }
+  }
   }
 `
 
 
 class GameContainer extends PureComponent {
-  state = {
-    showMessage : true
-  }
-
-  closeModal = () => {
-    this.setState({ showMessage: false})
-  }
-
   render() {
-    const { showMessage } = this.state
     const { gameOver } = this.props
 
     return (
@@ -64,7 +56,7 @@ class GameContainer extends PureComponent {
           <InputGuess />
           <ShowLetters />
           <WrongGuesses />
-          {gameOver && showMessage && <GameMessage onClick={this.closeModal} /> }
+          {gameOver && <GameMessage />}
           <NewGameButton />
         </Container>
       </FlexContainer>

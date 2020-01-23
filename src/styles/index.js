@@ -18,6 +18,7 @@ export default createGlobalStyle`
     font-family: 'Noto Sans', sans-serif;
     color: rgb(246, 199, 176);
     min-height: 100vh;
+    background-color: rgb(246,199,176);
     transition: background-size 0.25s linear;
     background-position-x: right;
     ${({ gamePage }) => gamePage ? css`

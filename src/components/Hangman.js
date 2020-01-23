@@ -58,7 +58,7 @@ const Hangman = ({ wrongGuesses }) => {
     setRoofLength(roof.current.getTotalLength())
     setStabilityLength(stability.current.getTotalLength())
     setRopeLength(rope.current.getTotalLength())
-  })
+  }, [base, stand, roof, stability, rope])
 
   const death = wrongGuesses > 5
 
@@ -68,8 +68,8 @@ const Hangman = ({ wrongGuesses }) => {
         <g id='hangman-purple' transform='translate(12 12)'>
           <g id='blood' transform='translate(365 460)'>
             <Blood
-            death={death}
-            delay={'2.5s'}
+              death={death}
+              delay={'2.5s'}
               id='Path'
               fill='#BE1631'
               d='M22.826 26.26c-1.095-2.844-7.053-3.03-13.31-.412C3.263 28.466-.92 32.895.175 35.739c1.095 2.846 7.053 3.03 13.308.412 6.256-2.617 10.439-7.046 9.344-9.89z'
@@ -132,8 +132,8 @@ const Hangman = ({ wrongGuesses }) => {
             <path id='torso' fill='#220F22' d='M37.54 87L32 130.74v79.812l44 .5v-80.31L70.748 87z' />
             <path id='l-arm' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d='M45 82c-14.228 17.86-23.66 30.394-28.295 37.6C12.069 126.807 6.5 139.34 0 157.2' />
             <path id='r-arm' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d='M63 82c14.092 21.034 23.347 36.549 27.765 46.546 4.417 9.996 7.741 21.733 9.972 35.208' />
-            <Head id='head' cx='54' cy='41' r='41' fill='#220F22' 
-            transform={death ? 'translate(-28 5)' : undefined} 
+            <Head id='head' cx='54' cy='41' r='41' fill='#220F22'
+              transform={death ? 'translate(-28 5)' : undefined}
             />
           </Human>
         </g>
