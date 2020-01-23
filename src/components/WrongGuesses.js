@@ -1,24 +1,35 @@
-import React, {PureComponent} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+
 import { wrongGuessCount } from '../lib/game'
 
-class WrongGuesses extends PureComponent {
+const Text = styled.p`
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  @media(min-width: 768px) {
+    font-size: 26px;
+    margin-bottom: 30px;
+  } 
+`
 
-  render() {
+const Guesses = styled.span`
+  text-shadow: 0px 3px 3px rgb(190, 22, 49);
+`
 
 
-    return (
-      <div>
-        <h2>You guessed wrong: <span> {wrongGuessCount(this.props.word, this.props.letters)} / 6</span>
-        </h2>
-      </div>);
-  }
+const WrongGuesses = ({ count }) => {
+  return (
+    <Text>
+      Wrong guess count: <Guesses> {count} / 6</Guesses>
+    </Text>
+  )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    word: state.word,
-    letters: state.letters
+    count: wrongGuessCount(state.word, state.letters)
   }
 }
 

@@ -1,19 +1,33 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-class ShowLetters extends PureComponent {
-  render() {
-    return (
-      <div>
-        <h3>You have guessed: {this.props.letters.map((letter, index) => <span key={index}>{letter} / </span>)}</h3>
-      </div>);
-  }
+const Text = styled.p`
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  @media(min-width: 768px) {
+    font-size: 26px;
+    margin-bottom: 30px;
+  }  
+`
+
+
+const ShowLetters = ({ guesses }) => {
+  return (
+    <Text>
+      You have guessed the letters:
+      {guesses.map((letter, index) => (
+        <span key={index}> {letter} /</span>
+      ))}
+    </Text>
+  )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    letters: state.letters
+    guesses: state.letters
   }
 }
 
-export default connect(mapStateToProps, { })(ShowLetters)
+export default connect(mapStateToProps, {})(ShowLetters)

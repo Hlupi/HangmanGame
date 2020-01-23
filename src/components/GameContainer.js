@@ -1,41 +1,73 @@
 import React, { PureComponent } from 'react'
-import { showGuess, isWinner, gameFinished } from '../lib/game'
-import { newGame, makeGuess } from '../actions/game'
 import { connect } from 'react-redux'
+import styled, { css } from 'styled-components'
+
+import { gameFinished } from '../lib/game'
 import Title from './Title'
+import WordToGuess from './WordToGuess'
 import NewGameButton from './NewGameButton'
 import InputGuess from './InputGuess'
 import ShowLetters from './ShowLetters'
 import WrongGuesses from './WrongGuesses'
-import './GameContainer.css'
+import Hangman from './Hangman'
+import GameMessage from './GameMessage'
 
+const FlexContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  @media (min-width: 768px) {
+    justify-content: space-between;
+  }
+`
+
+const Container = styled.div`
+  padding: 20px 40px;
+  width: 100%;
+  text-align: center;
+  @media (min-width: 768px) {
+    padding: 0 60px;
+    width: 50%;
+    ${({ withBackground }) => !withBackground && 'max-width: 550px'};
+  }
+  @media (max-width: 767px) {
+    ${({ withBackground }) => withBackground ? css`
+      background-image: linear-gradient(rgb(62, 3, 36), rgb(34, 15, 34));
+      position: relative;
+    ` :
+    'max-width: 450px'
+  }
+  }
+`
 
 
 class GameContainer extends PureComponent {
-
   render() {
+    const { gameOver } = this.props
 
     return (
-      <div>
-        <NewGameButton />
-        <Title content="Guess this word:" />
-        <p>{showGuess(this.props.word, this.props.letters)}</p>
-        <InputGuess />
-        <ShowLetters />
-        <WrongGuesses />
-        {isWinner(this.props.word, this.props.letters) && <p>YOU HAVE WON!</p>}
-        {gameFinished(this.props.word, this.props.letters) && !isWinner(this.props.word, this.props.letters) && <p>YOU LOST ): </p>}
-
-
-      </div>);
+      <FlexContainer>
+        <Container>
+          <Hangman />
+        </Container>
+        <Container withBackground>
+          <Title content='Guess this word:' />
+          <WordToGuess />
+          <InputGuess />
+          <ShowLetters />
+          <WrongGuesses />
+          {gameOver && <GameMessage />}
+          <NewGameButton />
+        </Container>
+      </FlexContainer>
+    )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    word: state.word,
-    letters: state.letters
+    gameOver: gameFinished(state.word, state.letters)
   }
 }
 
-export default connect(mapStateToProps, { newGame, makeGuess })(GameContainer)
+export default connect(mapStateToProps)(GameContainer)
