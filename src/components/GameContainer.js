@@ -2,17 +2,23 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled, { css } from 'styled-components'
 
-import { showGuess, wrongGuessCount, isWinner, gameFinished } from '../lib/game'
+import { gameFinished } from '../lib/game'
 import Title from './Title'
+import WordToGuess from './WordToGuess'
 import NewGameButton from './NewGameButton'
 import InputGuess from './InputGuess'
 import ShowLetters from './ShowLetters'
 import WrongGuesses from './WrongGuesses'
 import Hangman from './Hangman'
+import GameMessage from './GameMessage'
 
 const FlexContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  @media (min-width: 768px) {
+    justify-content: space-between;
+  }
 `
 
 const Container = styled.div`
@@ -20,39 +26,45 @@ const Container = styled.div`
   width: 100%;
   text-align: center;
   @media (min-width: 768px) {
-    padding: 20px;
+    padding: 0 60px;
     width: 50%;
+    ${({ withBackground }) => !withBackground && 'max-width: 550px'};
   }
-  ${({ withBackground }) => withBackground && css`
-    @media (max-width: 767px) {
+  @media (max-width: 767px) {
+    ${({ withBackground }) => withBackground ? css`
       background-image: linear-gradient(rgb(62, 3, 36), rgb(34, 15, 34));
+    ` :
+    'max-width: 450px'
     }
-    `}
+  }
 `
 
-const P = styled.p`
-  color: rgb(247, 191, 162);
-  font-size: 30px;
-  margin-bottom: 30px;
-  text-transform: uppercase;
-`
 
 class GameContainer extends PureComponent {
+  state = {
+    showMessage : true
+  }
+
+  closeModal = () => {
+    this.setState({ showMessage: false})
+  }
+
   render() {
-    const wrongGuesses = wrongGuessCount(this.props.word, this.props.letters)
+    const { showMessage } = this.state
+    const { gameOver } = this.props
+
     return (
       <FlexContainer>
         <Container>
-          <Hangman wrongGuesses={wrongGuesses} />
+          <Hangman />
         </Container>
         <Container withBackground>
           <Title content='Guess this word:' />
-          <P>{showGuess(this.props.word, this.props.letters)}</P>
+          <WordToGuess />
           <InputGuess />
           <ShowLetters />
-          <WrongGuesses count={wrongGuesses} />
-          {isWinner(this.props.word, this.props.letters) && <p>YOU HAVE WON!</p>}
-          {gameFinished(this.props.word, this.props.letters) && !isWinner(this.props.word, this.props.letters) && <p>YOU LOST ): </p>}
+          <WrongGuesses />
+          {gameOver && showMessage && <GameMessage onClick={this.closeModal} /> }
           <NewGameButton />
         </Container>
       </FlexContainer>
@@ -62,8 +74,7 @@ class GameContainer extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    word: state.word,
-    letters: state.letters
+    gameOver: gameFinished(state.word, state.letters)
   }
 }
 

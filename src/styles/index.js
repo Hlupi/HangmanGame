@@ -14,6 +14,7 @@ export default createGlobalStyle`
     margin: 0 auto;
     min-width: 320px;
     overflow-x: hidden;
+    position: relative;
     font-family: 'Noto Sans', sans-serif;
     color: rgb(246, 199, 176);
     min-height: 100vh;
@@ -108,7 +109,7 @@ export default createGlobalStyle`
   }
 
   form {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -117,6 +118,7 @@ export default createGlobalStyle`
      max-width: 450px;
     @media(min-width: 768px) {
       padding: 0 40px;
+       margin-bottom: 30px;
     }
   }
 

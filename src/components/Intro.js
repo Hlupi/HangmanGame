@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import Title from './Title'
+import { newGame } from '../actions/game'
 
 const Section = styled.section`
   margin-bottom: 20px;
@@ -23,7 +25,7 @@ const Text = styled.p`
 `
 
 
-export default function Intro() {
+function Intro({ newGame }) {
   return (
     <Section>
       <Title content='Did you know' />
@@ -35,7 +37,10 @@ export default function Intro() {
         from that sentence and not tried again on that crime.
       </Text>
       <Text>The irony here was that almost all of those criminals were illiterate.</Text>
-      <Link to='/hangman'>Try your odds</Link>
+      <Link to='/hangman' onClick={newGame}>Try your odds</Link>
     </Section>
   )
 }
+
+
+export default connect(null, { newGame })(Intro)

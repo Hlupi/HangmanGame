@@ -1,12 +1,10 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 
 
-class Title extends PureComponent {
-  render() {
-    return(
-      <h2 short={this.props.short}>{ this.props.content }</h2>
-    )
-  }
+function Title({ short, content }) {
+  return(
+    <h2 short={short}>{content}</h2>
+  )
 }
 
 export default Title

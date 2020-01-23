@@ -14,6 +14,7 @@ const Error = styled.span`
   color: rgb(190,22,49);
 `
 
+
 class InputGuess extends PureComponent {
   state = {
     error: false
@@ -22,8 +23,7 @@ class InputGuess extends PureComponent {
   handleSubmit = event => {
     event.preventDefault()
     const [ input ] = event.target.children
-    if(this.props.letters.indexOf(input.value) > -1) {
-      console.log('input', this.props.letters.indexOf(input.value))
+    if (this.props.guesses.indexOf(input.value) > -1) {
       this.setState({error: true})
     } else {
       this.props.makeGuess(input.value)
@@ -33,13 +33,16 @@ class InputGuess extends PureComponent {
   }
 
   render() {
+    const { error } = this.state
+    const { word, guesses } = this.props
+
     return (
       <form onSubmit={this.handleSubmit}>
         <input maxLength='1' type='text' pattern="^[A-Za-z]+$" title="Input the letter you whish to guess" />
-        <Button type='submit' value='submit' disabled={gameFinished(this.props.word, this.props.letters)} purple>
+        <Button type='submit' value='submit' disabled={gameFinished(word, guesses)} purple>
           GUESS
         </Button>
-        <Error visible={this.state.error}>Oops, looks like you've already guessed this letter</Error>
+        <Error visible={error}>Oops, looks like you've already guessed this letter</Error>
       </form>
     )
   }
@@ -48,7 +51,7 @@ class InputGuess extends PureComponent {
 const mapStateToProps = state => {
   return {
     word: state.word,
-    letters: state.letters
+    guesses: state.letters
   }
 }
 

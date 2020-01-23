@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import { withRouter } from "react-router";
+import { connect } from 'react-redux'
 
 import GlobalStyles from './styles/index'
 import Header from './components/Header'
 import Intro from './components/Intro'
 import GameContainer from './components/GameContainer'
+import { newGame } from './actions/game'
 
 class App extends Component {
   switchPath = () => {
@@ -13,6 +15,7 @@ class App extends Component {
       this.props.history.push('/')
     } else {
       this.props.history.push('/hangman')
+      this.props.newGame()
     }
   }
 
@@ -35,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default withRouter(connect(null, { newGame })(App));

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Button } from '../fragments/button'
 
+
 const Header = ({ gamePage, onClick }) => {
   const buttontext = gamePage ? 'Back' : 'Play'
   return (
