@@ -147,15 +147,3 @@ export default createGlobalStyle`
   }
 
 `
-
-const colors = {
-  purple: 'rgb(34,15,34)',
-  dred: 'rgb(62, 3, 36)',
-  red: 'rgb(111,10,41)',
-  lred: 'rgb(190,22,49)',
-  orange: 'rgb(238,107,64)',
-  salmon: 'rgb(254, 163, 135)',
-  beige: 'rgb(247, 191, 162)',
-  lbeige: 'rgb(246, 199, 176)',
-  svgdred: 'rgb(157, 18, 40)'
-}

@@ -12,15 +12,36 @@ from {
     stroke-dasharray: ${length} 0;
 }`
 
+const jump = keyframes`
+0% {
+  transform: translate(200px, 198px);
+}
+25% {
+  transform: translate(200px, 180px);
+}
+50% {
+  transform: translate(200px, 196px);
+}
+75% {
+  transform: translate(200px, 176px);
+}
+100% {
+  transform: translateY(200px, 198px);
+}
+`
+
 const Human = styled.g`
-  transition: transform 1s cubic-bezier(0.1, -0.6, 0.2, 0) 1s;
+  transition: ${({ death }) => death ? ' transform 1s cubic-bezier(0.1, -0.6, 0.2, 0) 1s' : 'transform .5s linear'};
+  ${({ winner }) => winner && css`
+    animation: ${jump} 1s ease .5s;
+  `};
 `
 
 const Head = styled.circle`
  transition: transform 1s ease 1s;
 `
 
-const P1 = styled.path`
+const Pole = styled.path`
   stroke-dasharray: ${({ length }) => length && `${length} 0`};
   opacity: ${({ visible }) => visible ? 1 : 0};
   transition: opacity .25s linear;
@@ -39,7 +60,7 @@ const Blood = styled.path`
 `
 
 
-const Hangman = ({ wrongGuesses }) => {
+const Hangman = ({ wrongGuesses, isWinner }) => {
   const [baseLength, setBaseLength] = useState(0)
   const [standLength, setStandLength] = useState(0)
   const [roofLength, setRoofLength] = useState(0)
@@ -64,8 +85,8 @@ const Hangman = ({ wrongGuesses }) => {
 
   return (
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 574'>
-      <g id='Page-1' fill='none' fillRule='evenodd'>
-        <g id='hangman-purple' transform='translate(12 12)'>
+      <g fill='none' fillRule='evenodd'>
+        <g transform='translate(12 12)'>
           <g id='blood' transform='translate(365 460)'>
             <Blood
               death={death}
@@ -120,18 +141,18 @@ const Hangman = ({ wrongGuesses }) => {
             />
           </g>
           <g id='diagram' stroke='#220F22'>
-            <P1 ref={base} length={baseLength} visible={wrongGuesses > 0} id='base' strokeLinecap='round' strokeWidth='25' d='M.5 510.5h228' />
-            <P1 ref={stand} length={standLength} visible={wrongGuesses > 1} id='stand' strokeLinecap='square' strokeWidth='25' d='M114.5 510.5V1' />
-            <P1 ref={roof} length={roofLength} visible={wrongGuesses > 2} id='roof' strokeLinecap='round' strokeWidth='25' d='M114.5 1H471' />
-            <P1 ref={stability} length={stabilityLength} visible={wrongGuesses > 3} id='stability' strokeWidth='25' d='M114.5 124.942L244.5 1' />
-            <P1 ref={rope} length={ropeLength} visible={wrongGuesses > 4} death={wrongGuesses > 5} id='rope' strokeLinecap='round' strokeWidth='20' d={death ? 'M421 1v370' : 'M421 1v114'} />
+            <Pole ref={base} length={baseLength} visible={wrongGuesses > 0} id='base' strokeLinecap='round' strokeWidth='25' d='M.5 510.5h228' />
+            <Pole ref={stand} length={standLength} visible={wrongGuesses > 1} id='stand' strokeLinecap='square' strokeWidth='25' d='M114.5 510.5V1' />
+            <Pole ref={roof} length={roofLength} visible={wrongGuesses > 2} id='roof' strokeLinecap='round' strokeWidth='25' d='M114.5 1H471' />
+            <Pole ref={stability} length={stabilityLength} visible={wrongGuesses > 3} id='stability' strokeWidth='25' d='M114.5 124.942L244.5 1' />
+            <Pole ref={rope} length={ropeLength} visible={wrongGuesses > 4} death={wrongGuesses > 5} id='rope' strokeLinecap='round' strokeWidth='20' d={death ? 'M421 1v370' : 'M421 1v114'} />
           </g>
-          <Human id='human' transform={death ? 'translate(368 150)' : 'translate(368 198)'}>
+          <Human id='human' transform={death ? 'translate(368 150)' : isWinner ? 'translate(200 198)' : 'translate(368 198)'} death={death} winner={isWinner}>
             <path id='l-leg' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d='M45 211l-14 75.499v26.171' />
             <path id='r-leg' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d='M63 210.5l13 79.284v22.386' />
             <path id='torso' fill='#220F22' d='M37.54 87L32 130.74v79.812l44 .5v-80.31L70.748 87z' />
-            <path id='l-arm' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d='M45 82c-14.228 17.86-23.66 30.394-28.295 37.6C12.069 126.807 6.5 139.34 0 157.2' />
-            <path id='r-arm' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d='M63 82c14.092 21.034 23.347 36.549 27.765 46.546 4.417 9.996 7.741 21.733 9.972 35.208' />
+            <path id='l-arm' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d={isWinner ? "M80.033 75.434c-13.088 16.43-23.008 25.964-27.272 32.593C48.496 114.657 6.208 37.36.228 53.79" :'M45 82c-14.228 17.86-23.66 30.394-28.295 37.6C12.069 126.807 6.5 139.34 0 157.2'} transform={isWinner ? 'translate(-35 10)' : undefined} />
+            <path id='r-arm' stroke='#220F22' strokeLinecap='round' strokeWidth='25' d={isWinner ? "M96.592 75.434c12.963 19.35 24.377 24.739 28.44 33.935 4.064 9.196 44.021-75.733 46.073-63.337" :'M63 82c14.092 21.034 23.347 36.549 27.765 46.546 4.417 9.996 7.741 21.733 9.972 35.208'} transform={isWinner ? 'translate(-35 10)' : undefined} />
             <Head id='head' cx='54' cy='41' r='41' fill='#220F22'
               transform={death ? 'translate(-28 5)' : undefined}
             />
@@ -145,8 +166,7 @@ const Hangman = ({ wrongGuesses }) => {
 const mapStateToProps = state => {
   return {
     wrongGuesses: wrongGuessCount(state.word, state.letters),
-    isWinner: isWinner(state.word, state.letters),
-    gameOver: gameFinished(state.word, state.letters)
+    isWinner: isWinner(state.word, state.letters)
   }
 }
 
