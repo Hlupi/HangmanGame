@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import styled, { css, keyframes } from 'styled-components'
 
-import { wrongGuessCount, isWinner, gameFinished } from '../lib/game'
+import { wrongGuessCount, isWinner } from '../lib/game'
 
 const drawPath = length => keyframes`
 from {
